@@ -1,0 +1,241 @@
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Tutorials.WebServerDB.CreateWebServer.html   
+
+
+    1  apt-get update
+    2  apt-get install apache2
+    3  apt-get install php php-mariadb php-mysql
+    4  apt-get install php php-mysql
+    5  ls -la /var/www/
+    6  cd /var/www/html
+    7  ls -la
+    8  sudo touch index.php
+    9  nano index.php
+
+<?php
+    echo "test";
+?>
+
+   10  ls -la
+   11  sudo mv index.html index.html.bak
+   14  sudo nano dbinfo.inc.php
+   15  fg (if exit u can written to nano)
+
+<?php
+
+define('DB_SERVER','db_instance_endpoint _paste from RDS');
+define('DB_USERNAME','root');
+define('DB_PASSWORD','shivani123');
+define('DB_DATABASE','sample');
+
+?>
+
+
+   14  sudo nano SamplePage.php
+
+<?php include "dbinfo.inc.php"; ?>
+<html>
+<body>
+<h1>Sample page</h1>
+<?php
+
+  /* Connect to MySQL and select the database. */
+  $connection = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD);
+
+  if (mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
+
+  $database = mysqli_select_db($connection, DB_DATABASE);
+
+  /* Ensure that the EMPLOYEES table exists. */
+  VerifyEmployeesTable($connection, DB_DATABASE);
+
+  /* If input fields are populated, add a row to the EMPLOYEES table. */
+  $employee_name = htmlentities($_POST['NAME']);
+  $employee_address = htmlentities($_POST['ADDRESS']);
+
+  if (strlen($employee_name) || strlen($employee_address)) {
+    AddEmployee($connection, $employee_name, $employee_address);
+  }
+?>
+
+<!-- Input form -->
+<form action="<?PHP echo $_SERVER['SCRIPT_NAME'] ?>" method="POST">
+  <table border="0">
+    <tr>
+      <td>NAME</td>
+      <td>ADDRESS</td>
+    </tr>
+    <tr>
+      <td>
+        <input type="text" name="NAME" maxlength="45" size="30" />
+      </td>
+      <td>
+        <input type="text" name="ADDRESS" maxlength="90" size="60" />
+      </td>
+      <td>
+        <input type="submit" value="Add Data" />
+      </td>
+    </tr>
+  </table>
+</form>
+
+<!-- Display table data. -->
+<table border="1" cellpadding="2" cellspacing="2">
+  <tr>
+    <td>ID</td>
+    <td>NAME</td>
+    <td>ADDRESS</td>
+  </tr>
+
+<?php
+
+$result = mysqli_query($connection, "SELECT * FROM EMPLOYEES");
+
+while($query_data = mysqli_fetch_row($result)) {
+  echo "<tr>";
+  echo "<td>",$query_data[0], "</td>",
+       "<td>",$query_data[1], "</td>",
+       "<td>",$query_data[2], "</td>";
+  echo "</tr>";
+}
+?>
+
+</table>
+
+<!-- Clean up. -->
+<?php
+
+  mysqli_free_result($result);
+  mysqli_close($connection);
+
+?>
+
+</body>
+</html>
+
+
+<?php
+
+/* Add an employee to the table. */
+function AddEmployee($connection, $name, $address) {
+   $n = mysqli_real_escape_string($connection, $name);
+   $a = mysqli_real_escape_string($connection, $address);
+
+   $query = "INSERT INTO EMPLOYEES (NAME, ADDRESS) VALUES ('$n', '$a');";
+
+   if(!mysqli_query($connection, $query)) echo("<p>Error adding employee data.</p>");
+}
+
+/* Check whether the table exists and, if not, create it. */
+function VerifyEmployeesTable($connection, $dbName) {
+  if(!TableExists("EMPLOYEES", $connection, $dbName))
+  {
+     $query = "CREATE TABLE EMPLOYEES (
+         ID int(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+         NAME VARCHAR(45),
+         ADDRESS VARCHAR(90)
+       )";
+
+     if(!mysqli_query($connection, $query)) echo("<p>Error creating table.</p>");
+  }
+}
+
+/* Check for the existence of a table. */
+function TableExists($tableName, $connection, $dbName) {
+  $t = mysqli_real_escape_string($connection, $tableName);
+  $d = mysqli_real_escape_string($connection, $dbName);
+
+  $checktable = mysqli_query($connection,
+      "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_NAME = '$t' AND TABLE_SCHEMA = '$d'");
+
+  if(mysqli_num_rows($checktable) > 0) return true;
+
+  return false;
+}
+?>  
+                         
+        9 telnet first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com 3306 ([ telnet paste rds_endpointb ]) 
+   21  mysql -u root -p -h first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   22  apt install mysql-client-core-8.0
+   23  mysql -u root -p -h first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+
+
+
+    1  apt-get update
+    2  apt-get install apache2
+    3  apt-get install php php-mariadb php-mysql
+    4  apt-get install php php-mysql
+    5  ls -la /var/www/
+    6  cd /var/www/html
+    7  ls -la
+    8  sudo touch index.php
+    9  nano index.php
+   10  history
+   11  nano index.php
+   12  ls -la
+   13  sudo mv index.html index.html.bak
+   14  sudo nano dbinfo.inc.php
+   15  fg
+   16  history
+   17  nano SamplePage.php
+   18  sudo nano dbinfo.inc.php
+   19  telnet first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   20  telnet first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com 3306
+   21  mysql -u root -p -h first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   22  apt install mysql-client-core-8.0
+   23  mysql -u root -p -h first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   24  history
+root@ip-172-31-61-226:/var/www/html# history
+    1  apt-get update
+    2  apt-get install apache2
+    3  apt-get install php php-mariadb php-mysql
+    4  apt-get install php php-mysql
+    5  ls -la /var/www/
+    6  cd /var/www/html
+    7  ls -la
+    8  sudo touch index.php
+    9  nano index.php
+   10  history
+   11  nano index.php
+   12  ls -la
+   13  sudo mv index.html index.html.bak
+   14  sudo nano dbinfo.inc.php
+   15  fg
+   16  history
+   17  nano SamplePage.php
+   18  sudo nano dbinfo.inc.php
+   19  telnet first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   20  telnet first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com 3306
+   21  mysql -u root -p -h first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   22  apt install mysql-client-core-8.0
+   23  mysql -u root -p -h first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   24  history
+root@ip-172-31-61-226:/var/www/html# nano SamplePage.php
+root@ip-172-31-61-226:/var/www/html# history
+    1  apt-get update
+    2  apt-get install apache2
+    3  apt-get install php php-mariadb php-mysql
+    4  apt-get install php php-mysql
+    5  ls -la /var/www/
+    6  cd /var/www/html
+    7  ls -la
+    8  sudo touch index.php
+    9  nano index.php
+   10  history
+   11  nano index.php
+   12  ls -la
+   13  sudo mv index.html index.html.bak
+   14  sudo nano dbinfo.inc.php
+   15  fg
+   16  history
+   17  nano SamplePage.php
+   18  sudo nano dbinfo.inc.php
+   19  telnet first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   20  telnet first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com 3306
+   21  mysql -u root -p -h first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   22  apt install mysql-client-core-8.0
+   23  mysql -u root -p -h first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   24  history
+   25  nano SamplePage.php
+ 
+
+           
