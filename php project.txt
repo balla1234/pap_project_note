@@ -236,6 +236,35 @@ root@ip-172-31-61-226:/var/www/html# history
    23  mysql -u root -p -h first-rds-php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
    24  history
    25  nano SamplePage.php
+   
+       1  apt-get update
+    2  apt-get install apache2
+    3  apt-get install php php-mysql
+    4  ls -la /var/www/
+    5  cd /var/www/html
+    6  ls -la
+    7  sudo nano dbinfo.inc.php
+    8  git clone https://github.com/balla1234/php_project.git
+    9  ls
+   10  cd php_project
+   11  ls
+   12  cd
+   13  cd /var/www/html/
+   14  ls
+   15  nano dbinfo.inc.php
+   16  telnet php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com 3306
+   17  mysql -u root -p -h php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   18  apt install mysql-client-core-5.7
+   19  apt install mariadb-client-core-10.1
+   20  mysql -u root -p -h php.ciheb9ocf7ha.us-east-1.rds.amazonaws.com
+   21  ls
+   22  histroy
+   23  cd
+   24  history
+
+   
+   nitn sir prject
+   
  
 
            
