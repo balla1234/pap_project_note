@@ -261,6 +261,12 @@ root@ip-172-31-61-226:/var/www/html# history
    22  histroy
    23  cd
    24  history
+   
+    paste in browser
+   http://ec2-18-204-10-4.compute-1.amazonaws.com/php_project/
+   
+   
+   
 
    
    nitn sir prject
